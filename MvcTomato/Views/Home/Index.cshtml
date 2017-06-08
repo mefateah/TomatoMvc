@@ -1,0 +1,39 @@
+﻿@model MvcTomato.Models.WorkingDay
+@{
+  ViewBag.Title = "Home Page";
+}
+
+<div>
+  <div>
+    @DateTime.Today.ToString("dd/MM/yyyy")
+  </div>
+  <div>
+    <form method="post">
+      @Html.HiddenFor(m => m.Date, new { Value = DateTime.Today.ToString("dd/MM/yyyy") })
+      <table>
+        <tr>
+          <th>Enter</th>
+          <th>Dinner - Start</th>
+          <th>Dinner - Finish</th>
+          <th>Exit</th>
+        </tr>
+        <tr>
+          <td>@Html.TextBoxFor(m => m.Enter)</td>
+          <td>@Html.TextBoxFor(m => m.DinnerStart)</td>
+          <td>@Html.TextBoxFor(m => m.DinnerFinish)</td>
+          <td>@Html.TextBoxFor(m => m.Exit)</td>
+        </tr>
+      </table>
+      <br/>
+      <input type="submit" value="Submit"/>
+    </form>
+  </div>
+  <div>
+    <h3>Month statistics</h3>
+    <span></span>
+  </div>
+  <div>
+    <h3>Daily statistics</h3>
+    <span></span>
+  </div>
+</div>
