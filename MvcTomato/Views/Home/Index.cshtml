@@ -1,4 +1,6 @@
-﻿@model MvcTomato.Models.WorkingDay
+﻿@using MvcTomato.Helpers
+@using MvcTomato.Models
+@model WorkingDay
 @{
   ViewBag.Title = "Home Page";
 }
@@ -7,9 +9,32 @@
   <div>
     @DateTime.Today.ToString("dd/MM/yyyy")
   </div>
+  @if (ViewBag.UncompleteToday != null)
+  {
+    WorkingDay today = ViewBag.UncompleteToday;
+    <div>
+      <p>You have uncompleted record for today:</p>
+      <table>
+        <tr>
+          <th>Enter</th>
+          <th>Dinner - Start</th>
+          <th>Dinner - Finish</th>
+          <th>Exit</th>
+          <th>Actions</th>
+        </tr>
+        <tr>
+          <td>@string.Format("{0:hh\\:mm}", today.Enter)</td>
+          <td>@string.Format("{0:hh\\:mm}", today.DinnerStart)</td>
+          <td>@string.Format("{0:hh\\:mm}", today.DinnerFinish)</td>
+          <td>@string.Format("{0:hh\\:mm}", today.Exit)</td>
+          <td>@Html.ActionLink("Continue edit", "Edit", new { id = today.Id })</td>
+        </tr>
+      </table>
+    </div>
+  }
   <div>
     <form method="post">
-      @Html.HiddenFor(m => m.Date, new { Value = DateTime.Today.ToString("dd/MM/yyyy") })
+      @Html.HiddenFor(m => m.Date, new {Value = DateTime.Today.ToString("dd/MM/yyyy")})
       <table>
         <tr>
           <th>Enter</th>
@@ -18,10 +43,10 @@
           <th>Exit</th>
         </tr>
         <tr>
-          <td>@Html.TextBoxFor(m => m.Enter)</td>
-          <td>@Html.TextBoxFor(m => m.DinnerStart)</td>
-          <td>@Html.TextBoxFor(m => m.DinnerFinish)</td>
-          <td>@Html.TextBoxFor(m => m.Exit)</td>
+          <td>@Html.TextBoxFor(m => m.Enter, "{0:hh\\:mm}")</td>
+          <td>@Html.TextBoxFor(m => m.DinnerStart, "{0:hh\\:mm}")</td>
+          <td>@Html.TextBoxFor(m => m.DinnerFinish, "{0:hh\\:mm}")</td>
+          <td>@Html.TextBoxFor(m => m.Exit, "{0:hh\\:mm}")</td>
         </tr>
       </table>
       <br/>
@@ -30,10 +55,24 @@
   </div>
   <div>
     <h3>Month statistics</h3>
-    <span></span>
+    @{
+      if (ViewBag.MonthStatistics != null)
+      {
+        foreach (TimeSpan day in ViewBag.MonthStatistics)
+        {
+          <span class="@(day < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(day)</span>
+          <br/>
+        }        
+      }
+    }
   </div>
   <div>
     <h3>Daily statistics</h3>
-    <span></span>
+    @{
+      if (ViewBag.DayStatistics != null)
+      {
+        <span class="@(ViewBag.DayStatistics < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(ViewBag.DayStatistics)</span>
+      }
+    }
   </div>
 </div>

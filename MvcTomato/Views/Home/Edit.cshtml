@@ -1,0 +1,31 @@
+﻿@model MvcTomato.Models.WorkingDay
+
+@{
+    ViewBag.Title = "Edit";
+    // TODO: Read about layout
+    //Layout = "_Layout";
+}
+
+<h2>Edit</h2>
+<div>
+    <form method="post">
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.Date)
+        <table>
+            <tr>
+                <th>Enter</th>
+                <th>Dinner - Start</th>
+                <th>Dinner - Finish</th>
+                <th>Exit</th>
+            </tr>
+            <tr>
+                <td>@Html.TextBoxFor(m => m.Enter, "{0:hh\\:mm}")</td>
+                <td>@Html.TextBoxFor(m => m.DinnerStart, "{0:hh\\:mm}")</td>
+                <td>@Html.TextBoxFor(m => m.DinnerFinish, "{0:hh\\:mm}")</td>
+                <td>@Html.TextBoxFor(m => m.Exit, "{0:hh\\:mm}")</td>
+            </tr>
+        </table>
+        <br/>
+        <input type="submit" value="Submit"/>
+    </form>
+</div>

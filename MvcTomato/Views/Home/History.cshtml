@@ -1,0 +1,25 @@
+﻿@using MvcTomato.Helpers
+@model IEnumerable<MvcTomato.ViewModels.HistoryDayViewModel>
+@{
+    ViewBag.Title = "History";
+}
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <table class="table-striped" style="width: 100%;">
+        <tr>
+            <th>Date</th>
+            <th>Overtime</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var day in Model)
+        {
+            <tr>
+                <td>@day.Date.ToString("dd/MM/yyyy")</td>
+                <td class="@(day.Statistics < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(day.Statistics)</td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = day.Id }) | @Html.ActionLink("Delete", "Delete", new { id = day.Id })</td>
+            </tr>
+        }
+    </table>
+</div>
+

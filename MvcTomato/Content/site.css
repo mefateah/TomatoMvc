@@ -22,3 +22,11 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.overtime {
+    color: #d9534f;
+}
+
+.shorttime {
+    color: #337ab7;
+}
