@@ -32,6 +32,8 @@ TestResults/
 # Web publish log #
 ###################
 *.Publish.xml
+# Click-Once directory
+publish/
 #############
 # Resharper #
 #############
@@ -55,6 +57,7 @@ TestResults/
 ######################
 *.log
 *.sqlite
+######################
 # OS generated files #
 ######################
 *.ncrunchsolution
@@ -64,6 +67,8 @@ backup/
 .vs/
 
 Web.config
+*.csproj.user
+*.user
 
 # Rider IDE stuff
 .idea/

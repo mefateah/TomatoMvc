@@ -7,7 +7,10 @@
 
 <div>
   <div>
-    @DateTime.Today.ToString("dd/MM/yyyy")
+    @DateTime.Today.ToString("MM/dd/yyyy")
+  </div>
+  <div>
+    @Html.ValidationSummary()
   </div>
   @if (ViewBag.UncompleteToday != null)
   {
@@ -34,7 +37,7 @@
   }
   <div>
     <form method="post">
-      @Html.HiddenFor(m => m.Date, new {Value = DateTime.Today.ToString("dd/MM/yyyy")})
+      @Html.HiddenFor(m => m.Date, new {Value = DateTime.Today.ToString()})
       <table>
         <tr>
           <th>Enter</th>
