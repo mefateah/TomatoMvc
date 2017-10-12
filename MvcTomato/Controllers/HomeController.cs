@@ -21,7 +21,7 @@ namespace MvcTomato.Controllers
 
         public ActionResult Index()
         {
-            TimeSpan rate = TimeSpan.FromHours(7);
+            TimeSpan rate = TimeSpan.FromHours(7.5);
             var month = db.WorkingDays.Where(d => d.Date.Month == DateTime.Today.Month && d.Finished).ToList();
             var monthStat = month.Select(d => rate - (d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart))).ToList();
             // Need to separate these two querys because substruction of dates is not supported in SQL
