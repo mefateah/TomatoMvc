@@ -57,17 +57,20 @@
     </form>
   </div>
   <div>
-    <h3>Month statistics</h3>
-    @{
-      if (ViewBag.MonthStatistics != null)
-      {
-        foreach (TimeSpan day in ViewBag.MonthStatistics)
-        {
-          <span class="@(day < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(day)</span>
-          <br/>
-        }        
+      <h3>Month statistics</h3>
+      @{
+          if (ViewBag.MonthStatistics != null)
+          {
+              foreach (TimeSpan day in ViewBag.MonthStatistics)
+              {
+                  <span class="@(day < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(day)</span>
+                  <br />
+              }
+              <span>__________</span>
+              <br />
+              <span class="@(ViewBag.MonthSum < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(ViewBag.MonthSum)</span>
+          }
       }
-    }
   </div>
   <div>
     <h3>Daily statistics</h3>

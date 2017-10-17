@@ -33,6 +33,7 @@ namespace MvcTomato.Controllers
                 todayStat = today.Select(d => rate - (d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart))).First();
             }
             ViewBag.MonthStatistics = monthStat;
+            ViewBag.MonthSum = monthStat.Aggregate(TimeSpan.Zero, (TimeSpan? t1, TimeSpan? t2) => t1 + t2);
             ViewBag.DayStatistics = todayStat;
 
             var uncompleteToday = db.WorkingDays.FirstOrDefault(d => d.Date == DateTime.Today && !d.Finished);
