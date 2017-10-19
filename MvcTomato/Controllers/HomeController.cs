@@ -23,7 +23,7 @@ namespace MvcTomato.Controllers
         {
             TimeSpan rate = TimeSpan.FromHours(7.5);
             var month = db.WorkingDays.Where(d => d.Date.Month == DateTime.Today.Month && d.Finished).ToList();
-            var monthStat = month.Select(d => rate - (d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart))).ToList();
+            var monthStat = month.OrderBy(d => d.Date).Select(d => rate - (d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart))).ToList();
             // Need to separate these two querys because substruction of dates is not supported in SQL
             // I convet it to List in order to force query execution (or maybe DbFunctions can be used)
             var today = db.WorkingDays.Where(d => d.Date == DateTime.Today && d.Finished).ToList();
@@ -92,6 +92,7 @@ namespace MvcTomato.Controllers
             // TODO: Decide how to show uncompeted days
             var days = db.WorkingDays
                 .Where(d => d.Date.Month == DateTime.Today.Month)
+                .OrderBy(d => d.Date)
                 .ToList()
                 .Select(d => new HistoryDayViewModel(d));
             return View(days);

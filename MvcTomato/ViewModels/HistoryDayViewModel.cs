@@ -5,7 +5,8 @@ namespace MvcTomato.ViewModels
 {
     public class HistoryDayViewModel
     {
-        public static TimeSpan rate = TimeSpan.FromHours(7);
+        // TODO: move 7.5 to application properties (settings)
+        public static TimeSpan rate = TimeSpan.FromHours(7.5);
         
         public HistoryDayViewModel(WorkingDay d)
         {
