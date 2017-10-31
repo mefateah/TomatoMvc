@@ -61,6 +61,7 @@
       @{
           if (ViewBag.MonthStatistics != null)
           {
+              TimeSpan monthAllSum = ViewBag.MonthAllSum;
               foreach (TimeSpan day in ViewBag.MonthStatistics)
               {
                   <span class="@(day < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(day)</span>
@@ -70,7 +71,7 @@
               <br />
               <span class="@(ViewBag.MonthSum < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(ViewBag.MonthSum)</span>
               <br />
-              <span>@ViewBag.MonthAllSum</span>
+              <span>@String.Format("{0:0}:{1}", monthAllSum.TotalHours, monthAllSum.Minutes)</span>
           }
       }
   </div>
