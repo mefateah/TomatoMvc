@@ -69,6 +69,8 @@
               <span>__________</span>
               <br />
               <span class="@(ViewBag.MonthSum < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(ViewBag.MonthSum)</span>
+              <br />
+              <span>@ViewBag.MonthAllSum</span>
           }
       }
   </div>
