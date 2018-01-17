@@ -1,6 +1,6 @@
 ﻿@using MvcTomato.Helpers
-@using MvcTomato.Models
-@model WorkingDay
+@using MvcTomato.ViewModels
+@model WorkingDayViewModel
 @{
   ViewBag.Title = "Home Page";
 }
@@ -14,7 +14,7 @@
   </div>
   @if (ViewBag.UncompleteToday != null)
   {
-    WorkingDay today = ViewBag.UncompleteToday;
+    WorkingDayViewModel today = ViewBag.UncompleteToday;
     <div>
       <p>You have uncompleted record for today:</p>
       <table>
@@ -37,7 +37,7 @@
   }
   <div>
     <form method="post">
-      @Html.HiddenFor(m => m.Date, new {Value = DateTime.Today.ToString()})
+        @Html.HiddenFor(m => m.Date, new { Value = DateTime.Today.ToString() })
       <table>
         <tr>
           <th>Enter</th>
