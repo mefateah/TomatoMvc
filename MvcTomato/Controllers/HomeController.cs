@@ -77,6 +77,7 @@ namespace MvcTomato.Controllers
                     return View("Error");
                 }
                 // TODO: for debug purpose
+                // TODO: disable submit button if all fields are empty
                 if (dayModel.Enter != null && dayModel.Exit != null && dayModel.DinnerStart != null && dayModel.DinnerFinish != null)
                 {
                     dayModel.Finished = true;
