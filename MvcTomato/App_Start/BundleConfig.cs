@@ -7,6 +7,10 @@ namespace MvcTomato
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/bundles/myjs").Include(
+                        "~/Scripts/pikaday/pikaday.js",
+                        "~/Scripts/site.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -24,6 +28,7 @@ namespace MvcTomato
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/pikaday/css/pikaday.css",
                       "~/Content/site.css"));
         }
     }

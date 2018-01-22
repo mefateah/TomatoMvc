@@ -73,3 +73,6 @@ Web.config
 # Rider IDE stuff
 .idea/
 *.DotSettings.user
+
+# npm packages
+node_modules/

@@ -7,9 +7,6 @@
 
 <div>
   <div>
-    @DateTime.Today.ToString("dd MMMM yyyy")
-  </div>
-  <div>
     @Html.ValidationSummary()
   </div>
   @if (ViewBag.UncompleteToday != null)
@@ -37,8 +34,12 @@
   }
   <div>
     <form method="post">
-        @Html.HiddenFor(m => m.Date, new { Value = DateTime.Today.ToString() })
         <div>
+            @Html.HiddenFor(m => m.Date, new { data_date = DateTime.Today.ToString("yyyy-MM-dd") })
+            <div class="input-group">
+                @Html.LabelFor(m => m.Date, "Date")
+                @Html.TextBox("UserDate", String.Empty, new { id = "datepicker", @class = "form-control" })
+            </div>
             <div class="input-group">
                 @Html.LabelFor(m => m.Enter, "Enter")
                 @Html.TextBoxFor(m => m.Enter, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })

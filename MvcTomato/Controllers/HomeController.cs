@@ -51,6 +51,7 @@ namespace MvcTomato.Controllers
             ViewBag.MonthAllSum = month.Select(d => d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart)).Aggregate(TimeSpan.Zero, (TimeSpan? t1, TimeSpan? t2) => t1 + t2);
             ViewBag.DayStatistics = todayStat;
 
+            // TODO: return all uncompleted entries
             var uncompleteToday = db.WorkingDays
                 .Where(d => d.OwnerId == userId)
                 .FirstOrDefault(d => d.Date == DateTime.Today && !d.Finished);

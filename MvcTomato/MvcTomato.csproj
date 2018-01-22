@@ -173,6 +173,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Global.asax" />
+    <Content Include="package.json" />
     <None Include="Properties\PublishProfiles\tomato - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\tomato - Web Deploy.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
