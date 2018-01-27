@@ -1,6 +1,7 @@
 ﻿using System;
 using MvcTomato.Models;
 using MvcTomato.ViewModels;
+using System.Collections.Generic;
 
 namespace MvcTomato.Utils
 {
@@ -18,6 +19,16 @@ namespace MvcTomato.Utils
                 DinnerFinish = day.DinnerFinish,
                 Finished = day.Finished
             };
+            return result;
+        }
+
+        public static IEnumerable<WorkingDayViewModel> ToViewModels(IEnumerable<WorkingDay> days)
+        {
+            var result = new List<WorkingDayViewModel>();
+            foreach (var day in days)
+            {
+                result.Add(ToViewModel(day));
+            }
             return result;
         }
 

@@ -15,6 +15,7 @@ using MvcTomato.ViewModels;
 * And show them on the next page loading (user log in)
 * TODO: add logging NLog + interface
 * TODO: unit tests for controllers (moq, IoC)
+* TODO: add all js libs using npm (jquery, bootstrap etc.) not Nuget
 */
 
 namespace MvcTomato.Controllers
@@ -52,13 +53,11 @@ namespace MvcTomato.Controllers
             ViewBag.DayStatistics = todayStat;
 
             // TODO: return all uncompleted entries
-            var uncompleteToday = db.WorkingDays
-                .Where(d => d.OwnerId == userId)
-                .FirstOrDefault(d => d.Date == DateTime.Today && !d.Finished);
-            // TODO: Add other uncomplete days
-            if (uncompleteToday != null)
+            var uncompleted = db.WorkingDays
+                .Where(d => d.OwnerId == userId && d.Finished == false).ToList();
+            if (uncompleted != null)
             {
-                ViewBag.UncompleteToday = ModelConverter.ToViewModel(uncompleteToday);
+                ViewBag.Uncompleted = ModelConverter.ToViewModels(uncompleted);
             }
             return View();
         }

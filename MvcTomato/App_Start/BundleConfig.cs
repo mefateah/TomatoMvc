@@ -8,7 +8,8 @@ namespace MvcTomato
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/myjs").Include(
-                        "~/Scripts/pikaday/pikaday.js",
+                        // TODO: Use npm package manager, remove this lib
+                        "~/Scripts/pikaday.js",
                         "~/Scripts/site.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
@@ -28,7 +29,7 @@ namespace MvcTomato
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/pikaday/css/pikaday.css",
+                      "~/Content/pikaday.css",
                       "~/Content/site.css"));
         }
     }

@@ -9,12 +9,12 @@
   <div>
     @Html.ValidationSummary()
   </div>
-  @if (ViewBag.UncompleteToday != null)
+  @if (ViewBag.Uncompleted != null)
   {
-      WorkingDayViewModel today = ViewBag.UncompleteToday;
+      List<WorkingDayViewModel> uncompleted = ViewBag.Uncompleted;
     <div>
-      <p>You have uncompleted record for today:</p>
-      <table>
+      <p>You have the following uncompleted records:</p>
+      <table class="table table-sm">
         <tr>
           <th>Enter</th>
           <th>Dinner - Start</th>
@@ -22,13 +22,16 @@
           <th>Exit</th>
           <th>Actions</th>
         </tr>
-        <tr>
-          <td>@string.Format("{0:hh\\:mm}", today.Enter)</td>
-          <td>@string.Format("{0:hh\\:mm}", today.DinnerStart)</td>
-          <td>@string.Format("{0:hh\\:mm}", today.DinnerFinish)</td>
-          <td>@string.Format("{0:hh\\:mm}", today.Exit)</td>
-          <td>@Html.ActionLink("Continue edit", "Edit", new { id = today.Id })</td>
-        </tr>
+          @foreach (var entry in uncompleted)
+          {
+              <tr>
+                  <td>@string.Format("{0:hh\\:mm}", entry.Enter)</td>
+                  <td>@string.Format("{0:hh\\:mm}", entry.DinnerStart)</td>
+                  <td>@string.Format("{0:hh\\:mm}", entry.DinnerFinish)</td>
+                  <td>@string.Format("{0:hh\\:mm}", entry.Exit)</td>
+                  <td>@Html.ActionLink("Continue edit", "Edit", new { id = entry.Id })</td>
+              </tr>
+          }
       </table>
     </div>
   }
@@ -38,7 +41,7 @@
             @Html.HiddenFor(m => m.Date, new { data_date = DateTime.Today.ToString("yyyy-MM-dd") })
             <div class="input-group">
                 @Html.LabelFor(m => m.Date, "Date")
-                @Html.TextBox("UserDate", String.Empty, new { id = "datepicker", @class = "form-control" })
+                @Html.TextBox("UserDate", String.Empty, new { id = "datepicker", @class = "form-control", autocomplete = "off" })
             </div>
             <div class="input-group">
                 @Html.LabelFor(m => m.Enter, "Enter")
