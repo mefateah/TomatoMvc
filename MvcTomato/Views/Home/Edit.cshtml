@@ -8,6 +8,9 @@
 
 <h2>Edit</h2>
 <div>
+    <div>
+        @Html.ValidationSummary()
+    </div>
     <form method="post">
         @Html.HiddenFor(m => m.Id)
         @Html.HiddenFor(m => m.Date)

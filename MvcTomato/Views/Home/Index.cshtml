@@ -39,23 +39,23 @@
     <form method="post">
         <div>
             @Html.HiddenFor(m => m.Date, new { data_date = DateTime.Today.ToString("yyyy-MM-dd") })
-            <div class="input-group">
+            <div class="input-group col-xs-3">
                 @Html.LabelFor(m => m.Date, "Date")
                 @Html.TextBox("UserDate", String.Empty, new { id = "datepicker", @class = "form-control", autocomplete = "off" })
             </div>
-            <div class="input-group">
+            <div class="input-group col-xs-3">
                 @Html.LabelFor(m => m.Enter, "Enter")
                 @Html.TextBoxFor(m => m.Enter, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
             </div>
-            <div class="input-group">
+            <div class="input-group col-xs-3">
                 @Html.LabelFor(m => m.DinnerStart, "Dinner start")
                 @Html.TextBoxFor(m => m.DinnerStart, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
             </div>
-            <div class="input-group">
+            <div class="input-group col-xs-3">
                 @Html.LabelFor(m => m.DinnerFinish, "Dinner finish")
                 @Html.TextBoxFor(m => m.DinnerFinish, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
             </div>
-            <div class="input-group">
+            <div class="input-group col-xs-3">
                 @Html.LabelFor(m => m.Exit, "Exit")
                 @Html.TextBoxFor(m => m.Exit, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
             </div>

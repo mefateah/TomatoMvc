@@ -55,7 +55,7 @@ namespace MvcTomato.Controllers
             // TODO: return all uncompleted entries
             var uncompleted = db.WorkingDays
                 .Where(d => d.OwnerId == userId && d.Finished == false).ToList();
-            if (uncompleted != null)
+            if (uncompleted.Count > 0)
             {
                 ViewBag.Uncompleted = ModelConverter.ToViewModels(uncompleted);
             }
@@ -78,6 +78,11 @@ namespace MvcTomato.Controllers
                 }
                 // TODO: for debug purpose
                 // TODO: disable submit button if all fields are empty
+                if (day.Enter == null && day.Exit == null && day.DinnerStart == null && day.DinnerFinish == null)
+                {
+                    ModelState.AddModelError("", "At least one of Enter, Exit, Dinner Start or Dinner Finish fields should be specified");
+                    return View(day);
+                }
                 if (dayModel.Enter != null && dayModel.Exit != null && dayModel.DinnerStart != null && dayModel.DinnerFinish != null)
                 {
                     dayModel.Finished = true;
@@ -107,6 +112,13 @@ namespace MvcTomato.Controllers
             {
                 return View("Error");
             }
+            if (day.Enter == null && day.Exit == null && day.DinnerStart == null && day.DinnerFinish == null)
+            {
+                ModelState.AddModelError("", "At least one of Enter, Exit, Dinner Start or Dinner Finish fields should be specified");
+                // suppress vlidation message for requiring OwnerId field
+                ModelState.Remove("OwnerId");
+                return View(day);
+            }
             //db.Entry(day).State = EntityState.Modified;
             dayModel.Enter = day.Enter;
             dayModel.Exit = day.Exit;
@@ -122,6 +134,7 @@ namespace MvcTomato.Controllers
 
         public ActionResult History()
         {
+            // TODO: Add to UI ability to select how many days to show (month, 3 month, all ...)
             string userId = User.Identity.GetUserId();
             // TODO: Decide how to show uncompeted days
             var days = db.WorkingDays
