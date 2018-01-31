@@ -17,7 +17,7 @@
             <tr>
                 <td>@day.Date.ToString("dd/MM/yyyy")</td>
                 <td class="@(day.Statistics < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(day.Statistics)</td>
-                <td>@Html.ActionLink("Edit", "Edit", new { id = day.Id }) | @Html.ActionLink("Delete", "Delete", new { id = day.Id })</td>
+                <td>@Html.ActionLink("Edit", "Edit", new { id = day.Id }) | <a href="#" id="deleteLink" data-url="/Home/Delete" data-id="@day.Id">Delete</a></td>
             </tr>
         }
     </table>

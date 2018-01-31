@@ -10,6 +10,7 @@ namespace MvcTomato
             bundles.Add(new ScriptBundle("~/bundles/myjs").Include(
                         // TODO: Use npm package manager, remove this lib
                         "~/Scripts/pikaday.js",
+                        "~/Scripts/bootbox.js",
                         "~/Scripts/site.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(

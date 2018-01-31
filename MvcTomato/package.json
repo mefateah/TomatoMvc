@@ -3,6 +3,7 @@
   "name": "asp.net",
   "private": true,
   "devDependencies": {
-    "pikaday": "1.7.0"
+    "pikaday": "1.7.0",
+    "bootbox": "4.4.0"
   }
 }

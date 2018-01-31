@@ -17,10 +17,32 @@
                     date.getFullYear(),
                     month < 10 ? '0' + month : month,
                     day < 10 ? '0' + day : day
-                    ].join('-')
+                ].join('-')
                 $('#datepicker')[0].value = userFormattedDate
                 $('#Date')[0].value = serverFormattedDate
             }
         });
     datepicker.setDate($('#Date').data('date'))
+
+    // bootbox confirm dialog
+    $(document).on('click', '#deleteLink', function (e) {
+        bootbox.confirm({
+            message: "Do you want to delete this record?",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    window.location.href = $('#deleteLink').data('url') + '/' + $('#deleteLink').data('id'); 
+                }
+            }
+        });
+    });
 })(jQuery);
