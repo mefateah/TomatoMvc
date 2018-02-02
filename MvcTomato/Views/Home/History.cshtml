@@ -1,11 +1,29 @@
 ﻿@using MvcTomato.Helpers
+@using System.Globalization
 @model IEnumerable<MvcTomato.ViewModels.HistoryDayViewModel>
 @{
     ViewBag.Title = "History";
+    int month;
+    if (Request.Params["month"] == null)
+    {
+        month = DateTime.Today.Month;
+    }
+    else
+    {
+        month = int.Parse(Request.Params["month"]);
+    }
 }
 <h2>@ViewBag.Title</h2>
 
 <div>
+    <div id="monthSelector" class="dropdown">
+        <select class="form-control">
+            @for (int i = 0; i < 12; i++)
+            {
+                <option @((month - 1) == i ? "selected=\"selected\"" : "") value="@(i + 1)">@CultureInfo.CurrentCulture.DateTimeFormat.MonthNames[i]</option>
+            }
+        </select>
+    </div>
     <table class="table table-sm table-striped" style="width: 100%;">
         <tr>
             <th>Date</th>

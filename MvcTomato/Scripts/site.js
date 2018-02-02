@@ -45,4 +45,11 @@
             }
         });
     });
+
+    // Month selector
+    // TODO: make it work with AJAX, 'cause on reloading the selector looks like crazy, makes double loading
+    //$('#monthSelector select').val($('#monthSelector').data('init'))
+    $('#monthSelector').change(function () {
+        window.location.href = '/Home/History?month=' + $('#monthSelector select').val(); 
+    })
 })(jQuery);

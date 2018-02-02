@@ -30,3 +30,7 @@ textarea {
 .shorttime {
     color: #337ab7;
 }
+
+#monthSelector {
+    margin: 15px 0;
+}

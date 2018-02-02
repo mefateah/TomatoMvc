@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using MvcTomato.DAL;
@@ -52,7 +51,6 @@ namespace MvcTomato.Controllers
             ViewBag.MonthAllSum = month.Select(d => d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart)).Aggregate(TimeSpan.Zero, (TimeSpan? t1, TimeSpan? t2) => t1 + t2);
             ViewBag.DayStatistics = todayStat;
 
-            // TODO: return all uncompleted entries
             var uncompleted = db.WorkingDays
                 .Where(d => d.OwnerId == userId && d.Finished == false).ToList();
             if (uncompleted.Count > 0)
@@ -77,7 +75,6 @@ namespace MvcTomato.Controllers
                     return View("Error");
                 }
                 // TODO: for debug purpose
-                // TODO: disable submit button if all fields are empty
                 if (day.Enter == null && day.Exit == null && day.DinnerStart == null && day.DinnerFinish == null)
                 {
                     ModelState.AddModelError("", "At least one of Enter, Exit, Dinner Start or Dinner Finish fields should be specified");
@@ -132,14 +129,18 @@ namespace MvcTomato.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult History()
+        public ActionResult History(int? month)
         {
+            if (!month.HasValue || month < 1 || month > 12)
+            {
+                month = DateTime.Today.Month;
+            }
             // TODO: Add to UI ability to select how many days to show (month, 3 month, all ...)
             string userId = User.Identity.GetUserId();
             // TODO: Decide how to show uncompeted days
             var days = db.WorkingDays
                 .Where(d => d.OwnerId == userId)
-                .Where(d => d.Date.Month == DateTime.Today.Month)
+                .Where(d => d.Date.Month == month)
                 .OrderBy(d => d.Date)
                 .ToList()
                 .Select(d => new HistoryDayViewModel(d));
