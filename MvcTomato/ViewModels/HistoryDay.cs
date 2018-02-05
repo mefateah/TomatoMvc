@@ -3,12 +3,12 @@ using MvcTomato.Models;
 
 namespace MvcTomato.ViewModels
 {
-    public class HistoryDayViewModel
+    public class HistoryDay
     {
         // TODO: move 7.5 to application properties (settings)
         public static TimeSpan rate = TimeSpan.FromHours(7.5);
         
-        public HistoryDayViewModel(WorkingDay d)
+        public HistoryDay(WorkingDay d)
         {
             Id = d.Id;
             Date = d.Date;

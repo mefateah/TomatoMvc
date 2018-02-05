@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using MvcTomato.DAL;
 using MvcTomato.Models;
-using HistoryDayViewModel = MvcTomato.ViewModels.HistoryDayViewModel;
+using HistoryDay = MvcTomato.ViewModels.HistoryDay;
 using Microsoft.AspNet.Identity;
 using MvcTomato.Utils;
 using MvcTomato.ViewModels;
@@ -129,22 +129,32 @@ namespace MvcTomato.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult History(int? month)
+        public ActionResult History(int? year, int? month)
         {
+            if (!year.HasValue)
+            {
+                year = DateTime.Today.Year;
+            }
             if (!month.HasValue || month < 1 || month > 12)
             {
                 month = DateTime.Today.Month;
             }
-            // TODO: Add to UI ability to select how many days to show (month, 3 month, all ...)
             string userId = User.Identity.GetUserId();
             // TODO: Decide how to show uncompeted days
             var days = db.WorkingDays
                 .Where(d => d.OwnerId == userId)
-                .Where(d => d.Date.Month == month)
+                .Where(d => d.Date.Year == year && d.Date.Month == month)
                 .OrderBy(d => d.Date)
                 .ToList()
-                .Select(d => new HistoryDayViewModel(d));
-            return View(days);
+                .Select(d => new HistoryDay(d));
+            var result = new HistoryViewModel
+            {
+                Date = new DateTime((int)year, (int)month, 1),
+                AvailableYears = db.WorkingDays.Select(d => d.Date.Year).Distinct().ToList(),
+                Days = days
+
+            };
+            return View(result);
         }
 
         public ActionResult Contact()

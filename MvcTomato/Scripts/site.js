@@ -48,8 +48,13 @@
 
     // Month selector
     // TODO: make it work with AJAX, 'cause on reloading the selector looks like crazy, makes double loading
-    //$('#monthSelector select').val($('#monthSelector').data('init'))
+    // TODO: remove hardcoded path (Home/History)
     $('#monthSelector').change(function () {
-        window.location.href = '/Home/History?month=' + $('#monthSelector select').val(); 
+        window.location.href = '/Home/History?year=' + $('#yearSelector select').val() + '&month=' + $('#monthSelector select').val(); 
+    })
+
+    // Year selector
+    $('#yearSelector').change(function () {
+        window.location.href = '/Home/History?year=' + $('#yearSelector select').val() + '&month=' + $('#monthSelector select').val(); 
     })
 })(jQuery);
