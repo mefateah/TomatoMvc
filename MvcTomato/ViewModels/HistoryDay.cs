@@ -12,11 +12,13 @@ namespace MvcTomato.ViewModels
         {
             Id = d.Id;
             Date = d.Date;
-            Statistics = rate - (d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart));
+            WorkedTime = d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart);
+            Statistics = rate - WorkedTime;
         }
 
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public TimeSpan? Statistics { get; set; }
+        public TimeSpan? WorkedTime { get; set; }
     }
 }

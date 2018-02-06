@@ -151,8 +151,8 @@ namespace MvcTomato.Controllers
             {
                 Date = new DateTime((int)year, (int)month, 1),
                 AvailableYears = db.WorkingDays.Select(d => d.Date.Year).Distinct().ToList(),
-                Days = days
-
+                Days = days,
+                TotalWorkedTime = new TimeSpan(days.Select(d => d.WorkedTime).Sum(i => i.HasValue ? i.Value.Ticks : 0))
             };
             return View(result);
         }
