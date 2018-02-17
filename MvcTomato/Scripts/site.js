@@ -26,6 +26,9 @@
 
     // bootbox confirm dialog
     $(document).on('click', '#deleteLink', function (e) {
+        var id = $(this).data('id'); 
+        var link = $(this).data('url');
+        
         bootbox.confirm({
             message: "Do you want to delete this record?",
             buttons: {
@@ -40,7 +43,7 @@
             },
             callback: function (result) {
                 if (result) {
-                    window.location.href = $('#deleteLink').data('url') + '/' + $('#deleteLink').data('id'); 
+                    window.location.href = link + '/' + id; 
                 }
             }
         });
