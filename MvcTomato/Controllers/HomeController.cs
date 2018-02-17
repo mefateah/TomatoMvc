@@ -69,10 +69,11 @@ namespace MvcTomato.Controllers
             if (ModelState.IsValid)
             {
                 // TODO: Implement it using AJAX
-                // Check there is no entrys in DB with that date
+                // Check there is no entrys in DB with the same date
                 if (db.WorkingDays.Where(d => d.OwnerId == userId).Any(d => d.Date == dayModel.Date))
                 {
-                    return View("Error");
+                    ModelState.AddModelError("Date", "You already have a record with the same date");
+                    return View(day);
                 }
                 // TODO: for debug purpose
                 if (day.Enter == null && day.Exit == null && day.DinnerStart == null && day.DinnerFinish == null)
