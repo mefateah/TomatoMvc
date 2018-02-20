@@ -57,6 +57,8 @@ namespace MvcTomato.Controllers
             {
                 ViewBag.Uncompleted = ModelConverter.ToViewModels(uncompleted);
             }
+            // TODO: Use ViewModel instead of ViewBag etc.
+            // 
             return View();
         }
 
@@ -153,7 +155,8 @@ namespace MvcTomato.Controllers
                 Date = new DateTime((int)year, (int)month, 1),
                 AvailableYears = db.WorkingDays.Select(d => d.Date.Year).Distinct().ToList(),
                 Days = days,
-                TotalWorkedTime = new TimeSpan(days.Select(d => d.WorkedTime).Sum(i => i.HasValue ? i.Value.Ticks : 0))
+                TotalWorkedTime = new TimeSpan(days.Select(d => d.WorkedTime).Sum(i => i.HasValue ? i.Value.Ticks : 0)),
+                TotalWorkedTimeWithDinner = new TimeSpan(days.Select(d => d.WorkedTimeWithDinner).Sum(i => i.HasValue ? i.Value.Ticks : 0))
             };
             return View(result);
         }

@@ -8,6 +8,7 @@ namespace MvcTomato.ViewModels
         public DateTime Date { get; set; }
         public IEnumerable<HistoryDay> Days { get; set; }
         public TimeSpan? TotalWorkedTime { get; set; }
+        public TimeSpan? TotalWorkedTimeWithDinner { get; set; }
         public IEnumerable<int> AvailableYears { get; set; }
     }
 }

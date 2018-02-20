@@ -39,7 +39,12 @@
         }
     </table>
     <div>
-        <span>Total working hours: @String.Format("{0:0}:{1}", Model.TotalWorkedTime.Value.TotalHours, Model.TotalWorkedTime.Value.Minutes)</span>
+        <div>
+            <span>Total working hours: @String.Format("{0:0}:{1}", Model.TotalWorkedTime.Value.TotalHours, Model.TotalWorkedTime.Value.Minutes)</span>
+        </div>
+        <div>
+            <span>Total working hours with dinner: @String.Format("{0:0}:{1}", Model.TotalWorkedTimeWithDinner.Value.TotalHours, Model.TotalWorkedTimeWithDinner.Value.Minutes)</span>
+        </div>
     </div>
 </div>
 
