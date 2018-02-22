@@ -177,6 +177,7 @@
     <Content Include="package.json" />
     <None Include="Properties\PublishProfiles\tomato - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\tomato - Web Deploy.pubxml" />
+    <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
