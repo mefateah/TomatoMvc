@@ -26,14 +26,14 @@ namespace MvcTomato.Controllers
 
         public ActionResult Index()
         {
-            TimeSpan rate = TimeSpan.FromHours(7.5);
+            TimeSpan rate = TimeSpan.FromHours(8);
             string userId = User.Identity.GetUserId();
             var month = db.WorkingDays
                 .Where(d => d.OwnerId == userId)
                 .Where(d => d.Date.Month == DateTime.Today.Month && d.Finished)
                 .ToList();
 
-            var monthStat = month.OrderBy(d => d.Date).Select(d => rate - (d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart))).ToList();
+            var monthStat = month.OrderBy(d => d.Date).Select(d => rate - CalculateWorkingTime(d)).ToList();
             // Need to separate these two querys because substruction of dates is not supported in SQL
             // I convet it to List in order to force query execution (or maybe DbFunctions can be used)
             var today = db.WorkingDays
@@ -44,29 +44,46 @@ namespace MvcTomato.Controllers
             var todayStat = new TimeSpan?();
             if (today.Any())
             {
-                todayStat = today.Select(d => rate - (d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart))).First();
+                todayStat = today.Select(d => rate - CalculateWorkingTime(d)).First();
             }
             ViewBag.MonthStatistics = monthStat;
-            ViewBag.MonthSum = monthStat.Aggregate(TimeSpan.Zero, (TimeSpan? t1, TimeSpan? t2) => t1 + t2);
-            ViewBag.MonthAllSum = month.Select(d => d.Exit - d.Enter - (d.DinnerFinish - d.DinnerStart)).Aggregate(TimeSpan.Zero, (TimeSpan? t1, TimeSpan? t2) => t1 + t2);
-            ViewBag.DayStatistics = todayStat;
+            var monthSum = monthStat.Aggregate(TimeSpan.Zero, (TimeSpan? t1, TimeSpan? t2) => t1 + t2);
+            var monthAllSum = month.Select(CalculateWorkingTime).Aggregate(TimeSpan.Zero, (TimeSpan? t1, TimeSpan? t2) => t1 + t2);
 
             var uncompleted = db.WorkingDays
                 .Where(d => d.OwnerId == userId && d.Finished == false).ToList();
-            if (uncompleted.Count > 0)
-            {
-                ViewBag.Uncompleted = ModelConverter.ToViewModels(uncompleted);
-            }
             // TODO: Use ViewModel instead of ViewBag etc.
             // 
-            return View();
+            var stats = new StatisticsViewModel()
+            {
+                UncompletedDays = ModelConverter.ToViewModels(uncompleted),
+                MonthStatistic = monthSum,
+                MonthSum = monthAllSum,
+                TodayStatistic = todayStat
+            };
+            return View(stats);
+        }
+
+        private TimeSpan? CalculateWorkingTime(WorkingDay day)
+        {
+            var dinner = day.DinnerFinish - day.DinnerStart;
+            var payedDinnerTime = TimeSpan.FromMinutes(30);
+            if (dinner <= payedDinnerTime)
+            {
+                dinner = TimeSpan.Zero;
+            }
+            else
+            {
+                dinner = dinner - payedDinnerTime;
+            }
+            return day.Exit - day.Enter - dinner;
         }
 
         [HttpPost]
-        public ActionResult Index(WorkingDayViewModel day)
+        public ActionResult Index(StatisticsViewModel dayWithStat)
         {
             string userId = User.Identity.GetUserId();
-            var dayModel = ModelConverter.ToModel(day);
+            var dayModel = ModelConverter.ToModel(dayWithStat.Day);
             dayModel.OwnerId = userId;
             if (ModelState.IsValid)
             {
@@ -75,13 +92,13 @@ namespace MvcTomato.Controllers
                 if (db.WorkingDays.Where(d => d.OwnerId == userId).Any(d => d.Date == dayModel.Date))
                 {
                     ModelState.AddModelError("Date", "You already have a record with the same date");
-                    return View(day);
+                    return View(dayWithStat);
                 }
                 // TODO: for debug purpose
-                if (day.Enter == null && day.Exit == null && day.DinnerStart == null && day.DinnerFinish == null)
+                if (dayWithStat.Day.Enter == null && dayWithStat.Day.Exit == null && dayWithStat.Day.DinnerStart == null && dayWithStat.Day.DinnerFinish == null)
                 {
                     ModelState.AddModelError("", "At least one of Enter, Exit, Dinner Start or Dinner Finish fields should be specified");
-                    return View(day);
+                    return View(dayWithStat);
                 }
                 if (dayModel.Enter != null && dayModel.Exit != null && dayModel.DinnerStart != null && dayModel.DinnerFinish != null)
                 {
@@ -91,7 +108,7 @@ namespace MvcTomato.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
-            return View(day);
+            return View(dayWithStat);
         }
 
         public ActionResult Edit(int id)
@@ -171,9 +188,10 @@ namespace MvcTomato.Controllers
         public ActionResult Delete(int id)
         {
             string userId = User.Identity.GetUserId();
+            WorkingDay day;
             try
             {
-                WorkingDay day = db.WorkingDays.Find(id);
+                day = db.WorkingDays.Find(id);
                 if (day.OwnerId != userId)
                 {
                     Console.Error.WriteLine($"The user '{userId}' is not allowed to delete '{day.Id}' entity");
@@ -188,7 +206,7 @@ namespace MvcTomato.Controllers
                 Console.Error.WriteLine(e.Message);
                 return View("Error");
             }
-            return RedirectToAction("History");
+            return RedirectToAction("History", new { year = day.Date.Year, month = day.Date.Month });
         }
     }
 }

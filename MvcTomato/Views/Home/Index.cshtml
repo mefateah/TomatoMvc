@@ -1,6 +1,6 @@
 ﻿@using MvcTomato.Helpers
 @using MvcTomato.ViewModels
-@model WorkingDayViewModel
+@model StatisticsViewModel
 @{
     ViewBag.Title = "Home Page";
 }
@@ -9,9 +9,8 @@
   <div>
     @Html.ValidationSummary()
   </div>
-  @if (ViewBag.Uncompleted != null)
+  @if (Model.UncompletedDays != null && Model.UncompletedDays.Any())
   {
-      List<WorkingDayViewModel> uncompleted = ViewBag.Uncompleted;
     <div>
       <p>You have the following uncompleted records:</p>
       <table class="table table-sm">
@@ -22,7 +21,7 @@
           <th>Exit</th>
           <th>Actions</th>
         </tr>
-          @foreach (var entry in uncompleted)
+          @foreach (var entry in Model.UncompletedDays)
           {
               <tr>
                   <td>@string.Format("{0:hh\\:mm}", entry.Enter)</td>
@@ -38,26 +37,26 @@
   <div>
     <form method="post">
         <div>
-            @Html.HiddenFor(m => m.Date, new { data_date = DateTime.Today.ToString("yyyy-MM-dd") })
+            @Html.HiddenFor(m => m.Day.Date, new { id = "Date", data_date = DateTime.Today.ToString("yyyy-MM-dd") })
             <div class="input-group col-xs-4 col-md-3">
-                @Html.LabelFor(m => m.Date, "Date")
-                @Html.TextBox("UserDate", String.Empty, new { id = "datepicker", @class = "form-control", autocomplete = "off" })
+                @Html.LabelFor(m => m.Day.Date, "Date")
+                @Html.TextBox("UserDate", string.Empty, new { id = "datepicker", @class = "form-control", autocomplete = "off" })
             </div>
             <div class="input-group col-xs-3">
-                @Html.LabelFor(m => m.Enter, "Enter")
-                @Html.TextBoxFor(m => m.Enter, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
+                @Html.LabelFor(m => m.Day.Enter, "Enter")
+                @Html.TextBoxFor(m => m.Day.Enter, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
             </div>
             <div class="input-group col-xs-3">
-                @Html.LabelFor(m => m.DinnerStart, "Dinner start")
-                @Html.TextBoxFor(m => m.DinnerStart, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
+                @Html.LabelFor(m => m.Day.DinnerStart, "Dinner start")
+                @Html.TextBoxFor(m => m.Day.DinnerStart, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
             </div>
             <div class="input-group col-xs-3">
-                @Html.LabelFor(m => m.DinnerFinish, "Dinner finish")
-                @Html.TextBoxFor(m => m.DinnerFinish, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
+                @Html.LabelFor(m => m.Day.DinnerFinish, "Dinner finish")
+                @Html.TextBoxFor(m => m.Day.DinnerFinish, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
             </div>
             <div class="input-group col-xs-3">
-                @Html.LabelFor(m => m.Exit, "Exit")
-                @Html.TextBoxFor(m => m.Exit, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
+                @Html.LabelFor(m => m.Day.Exit, "Exit")
+                @Html.TextBoxFor(m => m.Day.Exit, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
             </div>
         </div>
       <br/>
@@ -67,9 +66,9 @@
   <div>
       <h3>Month statistics</h3>
       @{
+          // TODO: remove ViewBag usings (except Title)
           if (ViewBag.MonthStatistics != null)
           {
-              TimeSpan monthAllSum = ViewBag.MonthAllSum;
               foreach (TimeSpan day in ViewBag.MonthStatistics)
               {
                   <span class="@(day < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(day)</span>
@@ -77,19 +76,15 @@
               }
               <span>__________</span>
               <br />
-              <span class="@(ViewBag.MonthSum < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(ViewBag.MonthSum)</span>
+              <span class="@(Model.MonthStatistic < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(Model.MonthStatistic)</span>
               <br />
-              <span>@String.Format("{0:0}:{1}", monthAllSum.TotalHours, monthAllSum.Minutes)</span>
+              TimeSpan monthSum = Model.MonthSum.Value;
+              <span>@String.Format("{0:hh\\:mm}", monthSum)</span>
           }
       }
   </div>
   <div>
-    <h3>Daily statistics</h3>
-    @{
-      if (ViewBag.DayStatistics != null)
-      {
-        <span class="@(ViewBag.DayStatistics < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(ViewBag.DayStatistics)</span>
-      }
-    }
+      <h3>Daily statistics</h3>
+      <span class="@(Model.TodayStatistic < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(Model.TodayStatistic)</span>
   </div>
 </div>

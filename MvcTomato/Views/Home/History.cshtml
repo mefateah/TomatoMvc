@@ -40,10 +40,10 @@
     </table>
     <div>
         <div>
-            <span>Total working hours: @String.Format("{0:0}:{1}", Model.TotalWorkedTime.Value.TotalHours, Model.TotalWorkedTime.Value.Minutes)</span>
+            <span>Total working hours: @string.Format("{0:hh\\:mm}", Model.TotalWorkedTime.Value)</span>
         </div>
         <div>
-            <span>Total working hours with dinner: @String.Format("{0:0}:{1}", Model.TotalWorkedTimeWithDinner.Value.TotalHours, Model.TotalWorkedTimeWithDinner.Value.Minutes)</span>
+            <span>Total working hours with dinner: @string.Format("{0:hh\\:mm}", Model.TotalWorkedTimeWithDinner.Value)</span>
         </div>
     </div>
 </div>

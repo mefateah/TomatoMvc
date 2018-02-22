@@ -155,6 +155,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\HistoryDay.cs" />
     <Compile Include="ViewModels\HistoryViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\WorkingDayViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
