@@ -76,7 +76,7 @@ namespace MvcTomato.Controllers
             {
                 dinner = dinner - payedDinnerTime;
             }
-            return day.Exit - day.Enter - dinner;
+            return (day.Exit - day.Enter) - dinner;
         }
 
         [HttpPost]

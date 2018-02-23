@@ -22,7 +22,7 @@ namespace MvcTomato.ViewModels
             {
                 dinner = dinner - Dinner;
             }
-            WorkedTime = d.Exit - d.Enter - dinner;
+            WorkedTime = (d.Exit - d.Enter) - dinner;
             Statistics = Rate - WorkedTime;
             WorkedTimeWithDinner = d.Exit - d.Enter;
         }

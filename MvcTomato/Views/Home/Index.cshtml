@@ -79,7 +79,7 @@
               <span class="@(Model.MonthStatistic < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(Model.MonthStatistic)</span>
               <br />
               TimeSpan monthSum = Model.MonthSum.Value;
-              <span>@String.Format("{0:hh\\:mm}", monthSum)</span>
+              <span>@String.Format("{0:0}:{1:00}", Math.Truncate(monthSum.TotalHours), monthSum.Minutes)</span>
           }
       }
   </div>
