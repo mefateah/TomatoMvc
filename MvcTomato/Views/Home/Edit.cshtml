@@ -12,23 +12,29 @@
         @Html.ValidationSummary()
     </div>
     <form method="post">
-        @Html.HiddenFor(m => m.Id)
-        @Html.HiddenFor(m => m.Date)
-        <table>
-            <tr>
-                <th>Enter</th>
-                <th>Dinner - Start</th>
-                <th>Dinner - Finish</th>
-                <th>Exit</th>
-            </tr>
-            <tr>
-                <td>@Html.TextBoxFor(m => m.Enter, "{0:hh\\:mm}")</td>
-                <td>@Html.TextBoxFor(m => m.DinnerStart, "{0:hh\\:mm}")</td>
-                <td>@Html.TextBoxFor(m => m.DinnerFinish, "{0:hh\\:mm}")</td>
-                <td>@Html.TextBoxFor(m => m.Exit, "{0:hh\\:mm}")</td>
-            </tr>
-        </table>
+        <div>
+            @Html.HiddenFor(m => m.Id)
+            <div>
+                <span id="Date">@Model.Date.ToString("dd/MM/yyyy")</span>
+            </div>
+            <div class="input-group col-xs-3">
+                @Html.LabelFor(m => m.Enter, "Enter")
+                @Html.TextBoxFor(m => m.Enter, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
+            </div>
+            <div class="input-group col-xs-3">
+                @Html.LabelFor(m => m.DinnerStart, "Dinner start")
+                @Html.TextBoxFor(m => m.DinnerStart, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
+            </div>
+            <div class="input-group col-xs-3">
+                @Html.LabelFor(m => m.DinnerFinish, "Dinner finish")
+                @Html.TextBoxFor(m => m.DinnerFinish, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
+            </div>
+            <div class="input-group col-xs-3">
+                @Html.LabelFor(m => m.Exit, "Exit")
+                @Html.TextBoxFor(m => m.Exit, "{0:hh\\:mm}", new { @class = "form-control", placeholder = "0:00" })
+            </div>
+        </div>
         <br/>
-        <input type="submit" value="Submit"/>
+        <input class="btn btn-default" type="submit" value="Submit"/>
     </form>
 </div>

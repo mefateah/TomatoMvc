@@ -33,7 +33,7 @@ namespace MvcTomato.Controllers
                 .Where(d => d.Date.Month == DateTime.Today.Month && d.Finished)
                 .ToList();
 
-            var monthStat = month.OrderBy(d => d.Date).Select(d => rate - CalculateWorkingTime(d)).ToList();
+            var monthStat = month.Where(d => d.Finished).OrderBy(d => d.Date).Select(d => rate - CalculateWorkingTime(d)).ToList();
             // Need to separate these two querys because substruction of dates is not supported in SQL
             // I convet it to List in order to force query execution (or maybe DbFunctions can be used)
             var today = db.WorkingDays
@@ -144,6 +144,10 @@ namespace MvcTomato.Controllers
             if (dayModel.Enter != null && dayModel.Exit != null && dayModel.DinnerStart != null && dayModel.DinnerFinish != null)
             {
                 dayModel.Finished = true;
+            }
+            else
+            {
+                dayModel.Finished = false;
             }
             db.SaveChanges();
             return RedirectToAction("Index");
