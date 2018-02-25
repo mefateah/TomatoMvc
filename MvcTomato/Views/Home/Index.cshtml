@@ -64,6 +64,10 @@
     </form>
   </div>
   <div>
+      <h3>Daily statistics</h3>
+      <span class="@(Model.TodayStatistic < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(Model.TodayStatistic)</span>
+  </div>
+  <div>
       <h3>Month statistics</h3>
       @{
           // TODO: remove ViewBag usings (except Title)
@@ -82,9 +86,5 @@
               <span>@String.Format("{0:0}:{1:00}", Math.Truncate(monthSum.TotalHours), monthSum.Minutes)</span>
           }
       }
-  </div>
-  <div>
-      <h3>Daily statistics</h3>
-      <span class="@(Model.TodayStatistic < TimeSpan.Zero ? "shorttime" : "overtime")">@TimeFormatter.FormatTimeSpan(Model.TodayStatistic)</span>
   </div>
 </div>
