@@ -35,7 +35,7 @@
     </div>
   }
   <div>
-    <form method="post">
+    <form autocomplete="off" method="post">
         <div>
             @Html.HiddenFor(m => m.Day.Date, new { id = "Date", data_date = DateTime.Today.ToString("yyyy-MM-dd") })
             <div class="input-group col-xs-4 col-md-3">
